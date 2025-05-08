@@ -19,7 +19,7 @@ import org.springframework.http.codec.json.Jackson2JsonEncoder
 
 @Configuration
 @AutoConfiguration
-@ConditionalOnProperty(prefix = "respectme.security.jwt", name = ["enabled"], havingValue = "true", matchIfMissing = false)
+@ConditionalOnProperty(prefix = "respect-me.security.jwt", name = ["enabled"], havingValue = "true", matchIfMissing = false)
 @EnableFeignClients(clients=[JwtAuthenticationRequirementsRequestAdapter::class])
 class DefaultJwtAuthenticationConfig(
     @Value("\${respect-me.msa.auth-api.url}")

@@ -27,18 +27,5 @@ class CookieUtility {
         fun delCookie(response: HttpServletResponse, field: String) {
             setCookie(response, field, "", 0)
         }
-
-        fun serialize(obj: Any): String {
-            return Base64.getUrlEncoder()
-                .encodeToString(SerializationUtils.serialize(obj))
-        }
-
-        fun <T> deserialize(cookie: Cookie, clazz: Class<T>): T {
-            return clazz.cast(
-                SerializationUtils.deserialize(
-                Base64.getUrlDecoder()
-                    .decode(cookie.value)
-            ))
-        }
     }
 }
