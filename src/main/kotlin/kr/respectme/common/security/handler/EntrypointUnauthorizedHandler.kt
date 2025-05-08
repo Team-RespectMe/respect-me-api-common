@@ -31,7 +31,7 @@ class EntrypointUnauthorizedHandler(): AuthenticationEntryPoint {
             is JwtAuthenticationException -> authException.message
             else -> DEFAULT_UNAUTHORIZED_EXCEPTION
         }
-        response.contentType = "application/json;charset=UTF-8"
+        response.contentType = "application/json; charset=UTF-8"
         response.status = HttpServletResponse.SC_UNAUTHORIZED
         response.writer.write(message)
         response.writer.flush()
