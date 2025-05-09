@@ -18,11 +18,11 @@ class JwtAuthenticationToken(private var _principal: Any): AbstractAuthenticatio
     }
 
     override fun isAuthenticated(): Boolean {
-        return !(_principal as JwtAuthentication).isActivated
+        return (_principal as JwtAuthentication).isActivated
     }
 
     override fun setAuthenticated(isAuthenticated: Boolean) {
-
+        this.isAuthenticated = isAuthenticated
     }
 
     override fun getCredentials(): Any? {
