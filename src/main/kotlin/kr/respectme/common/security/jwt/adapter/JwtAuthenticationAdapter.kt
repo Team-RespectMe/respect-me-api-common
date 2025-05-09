@@ -3,6 +3,7 @@ package kr.respectme.common.security.jwt.adapter
 import com.auth0.jwt.JWT
 import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm
+import com.auth0.jwt.exceptions.IncorrectClaimException
 import kr.respectme.common.security.jwt.JwtClaims
 import kr.respectme.common.security.jwt.adapter.dto.JwtValidateRequest
 import kr.respectme.common.security.jwt.port.JwtAuthenticationPort
@@ -30,9 +31,11 @@ class JwtAuthenticationAdapter(
         logger.info("JwtAuthenticationAdapter generated.")
         try {
             jwtAuthenticationRequirements = getRequirements()
+            logger.info("init requirements: ${jwtAuthenticationRequirements}")
             accessTokenVerifier = JWT.require(getAlgorithm())
                 .withIssuer(jwtAuthenticationRequirements!!.issuer)
                 .build()
+            logger.info("JWT Authentication Adapter Initialization Success : ${jwtAuthenticationRequirements!!.issuer}")
         }catch(e: Exception) {
             logger.error("JWT Authentication Adapter Initialization Failed : ${e.message}")
         }
@@ -45,6 +48,7 @@ class JwtAuthenticationAdapter(
 
         return try {
             val decodedJWT = accessTokenVerifier.verify(jwtValidationRequest.accessToken)
+            logger.info("JWT Verification Success : ${decodedJWT.token} ${decodedJWT.issuer}")
             JwtClaims.valueOf(decodedJWT)
         } catch (e: Exception) {
             logger.error("JWT Verification Failed : ${e.message}")
@@ -56,8 +60,9 @@ class JwtAuthenticationAdapter(
     private fun updateVerifier() {
         jwtAuthenticationRequirements = getRequirements()
         accessTokenVerifier = JWT.require(getAlgorithm())
-            .withIssuer(jwtAuthenticationRequirements!!.issuer)
+            .withIssuer(jwtAuthenticationRequirements?.issuer.toString())
             .build()
+        logger.info("JWT Authentication Adapter Update Success : ${jwtAuthenticationRequirements?.issuer}")
     }
 
     private fun getRequirements(): JwtAuthenticationRequirements {
